@@ -11,4 +11,3 @@ gevent
 beautifulsoup4
 bs4
 rq
-ebooklib
