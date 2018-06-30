@@ -1,5 +1,7 @@
 ## Functionality
-1. Converts stories on [fanfiction.net] to epub
+1. Converts stories on [fanfiction.net] to epub.
+Go to fanfiction-server.herokuapp.com/fanfiction_epub/<fanfiction.net story id> to get the converted epub file.
+ex. https://fanfiction-server.herokuapp.com/fanfiction_epub/11322704
 
 ## Modifications that had to be made
 
