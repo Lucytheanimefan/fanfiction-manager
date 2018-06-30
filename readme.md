@@ -1,3 +1,6 @@
+## Functionality
+1. Converts stories on [fanfiction.net] to epub
+
 ## Modifications that had to be made
 
 In the EbookLib module in epub.py on line 908:

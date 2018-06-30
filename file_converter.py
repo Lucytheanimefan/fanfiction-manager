@@ -57,7 +57,6 @@ class Converter:
             (epub.Section('Chapters'), chapters)
         )
 
-
         # add default NCX and Nav file
         book.add_item(epub.EpubNcx())
         book.add_item(epub.EpubNav())
