@@ -80,6 +80,7 @@ class Converter:
         if path.exists(filename):
             remove(filename)
         epub.write_epub(filename, book, {})
+        return filename
 
 if __name__ == "__main__":
     convert = Converter(12306614)

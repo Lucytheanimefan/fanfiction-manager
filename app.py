@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, send_file
 from file_converter import Converter
 
 app = Flask(__name__)
@@ -13,8 +13,8 @@ def home():
 @app.route("/fanfiction_epub/<story_id>", methods=["GET", "POST"])
 def fanfic_to_epub(story_id):
     convert = Converter(int(story_id))
-    convert.convert_to_epub()
-    return "Done converting"
+    path = convert.convert_to_epub()
+    return send_file(path, as_attachment=True)
 
 
 if __name__ == "__main__":
