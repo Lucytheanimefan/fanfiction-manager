@@ -411,7 +411,9 @@ class Chapter(object):
         select = soup.find('select', {'name': 'chapter'})
         if select:
             # There are multiple chapters available, use chapter's title
-            self.title = select.find('option', selected=True).string.split(None, 1)[1]
+            found = select.find('option', selected=True)
+            if found:
+                self.title = str(found).partition("<option value=\"")[0].split(">", 1)[1] #found[0].text #.split(None, 1)[1]
         else:
             # No multiple chapters, one-shot or only a single chapter released
             # until now; for the lack of a proper chapter title use the story's

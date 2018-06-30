@@ -13,6 +13,9 @@ class Converter:
         print("----")
         print(self.fanfic.chapters)
 
+        for chapter in self.fanfic.chapters:
+            print(chapter.title)
+
 
 if __name__ == "__main__":
     convert = Converter(12942457)
