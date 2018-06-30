@@ -118,7 +118,7 @@ def _get_key_of_first_positive(f, d):
 
 
 class Story(object):
-    def __init__(self, url=None, id=None):
+    def __init__(self, id=None):
         """ A story on fanfiction.net
 
         If both url, and id are provided, url is used.
@@ -148,10 +148,7 @@ class Story(object):
         """
         self.id = id
         if id is None:
-            if url is None:
-                raise ValueError("There must be a url or an id.")
-            else:
-                self.id = _parse_integer(_STORYID_REGEX, url)
+            raise ValueError("id can't be None")
 
     def download_data(self):
         self.timestamp = datetime.now()
@@ -291,8 +288,8 @@ class Story(object):
         """
         return ReviewsGenerator(self.id)
 
-    def download(self, output='', message=True, ext=''):
-        download(self, output=output, message=message, ext=ext)
+    # def download(self, output='', message=True, ext=''):
+    #     download(self, output=output, message=message, ext=ext)
 
     # Method alias which allows the user to treat the get_chapters method like
     # a normal property if no manual opener is to be specified.
