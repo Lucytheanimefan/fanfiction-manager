@@ -543,6 +543,7 @@ T = 3
 # Characters
 OC = 120478
 
+MIN_FOLLOW_TO_CHAPTER_RATIO = 15
 
 class FanFiction:
 
@@ -554,11 +555,22 @@ class FanFiction:
         source = r.text
         soup = bs4.BeautifulSoup(source, 'html.parser')
         story_list = soup.find_all("div", {"class": "z-list"})
-        titles = soup.find_all("a", {"class": "stitle"})
-        for title in titles:
-            story_id = re.search('/s/(.*)/1/', title['href'])
-            print(story_id.group(1))
+
+        recommended_story_ids = []
+
+        for story in story_list:
+            title = story.find("a", {"class": "stitle"})
+            story_id = re.search('/s/(.*)/1/', title['href']).group(1)
+            description = story.find("div", {"class": "z-indent"})
+            other_info = description.find("div", {"class": "z-padtop2"})
+            follows = re.search('Follows: (.*) - Updated', other_info.text).group(1)
+            chapters = re.search('Chapters: (.*) - Words', other_info.text).group(1)
+            follow_to_chapter = int(follows.replace(',', ''))/int(chapters.replace(',', ''))
+            print(follow_to_chapter)
+            if follow_to_chapter > MIN_FOLLOW_TO_CHAPTER_RATIO:
+                recommended_story_ids.append(story_id)
+        return recommended_story_ids
 
 
 if __name__ == "__main__":
-    FanFiction.search_fanfiction("Death-Note")
+    print(FanFiction.search_fanfiction("Death-Note"))
