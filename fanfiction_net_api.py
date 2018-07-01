@@ -524,3 +524,41 @@ class User(object):
             author_url = author_tag.get('href')
             author_url = root + author_url
             yield User(author_url)
+
+
+# Searching constants
+
+# Sort by:
+UPDATE_DATE = 1
+PUBLISH_DATE = 2
+REVIEWS = 3
+FAVORITES = 4
+FOLLOW = 5
+
+# Rating
+ALL = 10
+MATURE = 4
+T = 3
+
+# Characters
+OC = 120478
+
+
+class FanFiction:
+
+    @staticmethod
+    def search_fanfiction(title, medium="anime", character="", sort_by=FOLLOW, rating=ALL):
+        url = root + "/%s/%s/?srt=%i&r=%i&c1=%s" % (medium, title, sort_by, rating, character)
+        print(url)
+        r = requests.get(url)
+        source = r.text
+        soup = bs4.BeautifulSoup(source, 'html.parser')
+        story_list = soup.find_all("div", {"class": "z-list"})
+        titles = soup.find_all("a", {"class": "stitle"})
+        for title in titles:
+            story_id = re.search('/s/(.*)/1/', title['href'])
+            print(story_id.group(1))
+
+
+if __name__ == "__main__":
+    FanFiction.search_fanfiction("Death-Note")
