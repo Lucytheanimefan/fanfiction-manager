@@ -398,7 +398,7 @@ class Chapter(object):
             if story_id is None:
                 print('A URL or story id must be entered.')
             elif chapter is None:
-                print('Both a stroy id and chapter number must be provided')
+                print('Both a story id and chapter number must be provided')
             elif story_id and chapter:
                 url = _CHAPTER_URL_TEMPLATE % (story_id, chapter)
 
@@ -414,7 +414,8 @@ class Chapter(object):
             # There are multiple chapters available, use chapter's title
             found = select.find('option', selected=True)
             if found:
-                self.title = str(found).partition("<option value=\"")[0].split(">", 1)[1] #found[0].text #.split(None, 1)[1]
+                print(found)
+                self.title = str(found).partition("<option value=\"")[0].split(">", 1)[1].split("<", 1)[0] #found[0].text #.split(None, 1)[1]
         else:
             # No multiple chapters, one-shot or only a single chapter released
             # until now; for the lack of a proper chapter title use the story's
@@ -587,5 +588,5 @@ class FanFiction:
 
 
 if __name__ == "__main__":
-    print(FanFiction.get_recommendations("Death-Note", download_num=10))
-    # FanFiction.fanfic_epub_already_exists("Anatheme")
+    # print(FanFiction.get_recommendations("Death-Note", download_num=10))
+    FanFiction.fanfic_epub_already_exists("Twenty-Three Percent")
