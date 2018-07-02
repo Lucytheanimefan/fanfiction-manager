@@ -1,7 +1,8 @@
 import re, requests, bs4, unicodedata
 from datetime import timedelta, date, datetime
 from time import time
-
+import plistlib
+from file_converter import *
 
 # Constants
 root = 'https://www.fanfiction.net'
@@ -540,16 +541,16 @@ ALL = 10
 MATURE = 4
 T = 3
 
-# Characters
-OC = 120478
-
 MIN_FOLLOW_TO_CHAPTER_RATIO = 15
+
+iBOOKS_FILE_PATH = "/Users/lucyzhang/Library/Containers/com.apple.BKAgentService/Data/Documents/iBooks/Books/Books.plist"
+
 
 class FanFiction:
 
     @staticmethod
-    def search_fanfiction(title, medium="anime", character="", sort_by=FOLLOW, rating=ALL):
-        url = root + "/%s/%s/?srt=%i&r=%i&c1=%s" % (medium, title, sort_by, rating, character)
+    def get_recommendations(fandom_title, medium="anime", character="", sort_by=FOLLOW, rating=ALL, download_num=0):
+        url = root + "/%s/%s/?srt=%i&r=%i&c1=%s" % (medium, fandom_title, sort_by, rating, character)
         print(url)
         r = requests.get(url)
         source = r.text
@@ -558,7 +559,7 @@ class FanFiction:
 
         recommended_story_ids = []
 
-        for story in story_list:
+        for i, story in enumerate(story_list):
             title = story.find("a", {"class": "stitle"})
             story_id = re.search('/s/(.*)/1/', title['href']).group(1)
             description = story.find("div", {"class": "z-indent"})
@@ -566,11 +567,25 @@ class FanFiction:
             follows = re.search('Follows: (.*) - Updated', other_info.text).group(1)
             chapters = re.search('Chapters: (.*) - Words', other_info.text).group(1)
             follow_to_chapter = int(follows.replace(',', ''))/int(chapters.replace(',', ''))
-            print(follow_to_chapter)
             if follow_to_chapter > MIN_FOLLOW_TO_CHAPTER_RATIO:
                 recommended_story_ids.append(story_id)
+                if i <= download_num and not FanFiction.fanfic_epub_already_exists(title):
+                    converter = Converter(int(story_id))
+                    converter.convert_to_epub()
         return recommended_story_ids
+
+    @staticmethod
+    def fanfic_epub_already_exists(fanfic_title):
+        pl = plistlib.readPlist(iBOOKS_FILE_PATH)
+        books = pl["Books"]
+        for book in books:
+            title = book["itemName"]
+            if fanfic_title == title:  # Should do a better check with the story id instead
+                print(title + " ALREADY EXISTS IN iBOOKS!")
+                return True
+        return False
 
 
 if __name__ == "__main__":
-    print(FanFiction.search_fanfiction("Death-Note"))
+    print(FanFiction.get_recommendations("Death-Note", download_num=10))
+    # FanFiction.fanfic_epub_already_exists("Anatheme")

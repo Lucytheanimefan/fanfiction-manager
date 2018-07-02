@@ -6,6 +6,7 @@ from os import path, remove
 class Converter:
 
     def __init__(self, story_id):
+        self.story_id = story_id
         self.fanfic = Story(story_id)
 
     def convert_to_epub(self):
@@ -15,7 +16,7 @@ class Converter:
         book = epub.EpubBook()
 
         # set metadata
-        book.set_identifier('id123456')
+        book.set_identifier(str(self.story_id))
         book.set_title(self.fanfic.title)
         book.set_language('en')
 
