@@ -78,7 +78,7 @@ class Converter:
         book.spine = [intro_ch, nav_page] + chapters
 
         # write to the file
-        filename = iBOOKS_PATH + '%s.epub' % self.fanfic.title
+        filename = '%s.epub' % self.fanfic.title
         print("Saving to %s" % filename)
         if path.exists(filename):
             remove(filename)
