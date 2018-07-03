@@ -3,6 +3,7 @@ from datetime import timedelta, date, datetime
 from time import time
 import plistlib
 from file_converter import *
+import file_converter
 
 # Constants
 root = 'https://www.fanfiction.net'
@@ -558,6 +559,7 @@ class FanFiction:
         story_list = soup.find_all("div", {"class": "z-list"})
 
         recommended_story_ids = []
+        recommended_stories = {}
 
         for i, story in enumerate(story_list):
             title = story.find("a", {"class": "stitle"})
@@ -569,10 +571,13 @@ class FanFiction:
             follow_to_chapter = int(follows.replace(',', ''))/int(chapters.replace(',', ''))
             if follow_to_chapter > MIN_FOLLOW_TO_CHAPTER_RATIO:
                 recommended_story_ids.append(story_id)
+                print(title.text)
+                recommended_stories[story_id] = {"title": title.text, "description": description.text, "chapters": chapters,
+                                                 "follows": follows, "follow_to_chapter": follow_to_chapter}
                 if i <= download_num and not FanFiction.fanfic_epub_already_exists(title):
-                    converter = Converter(int(story_id))
+                    converter = file_converter.Converter(int(story_id))
                     converter.convert_to_epub()
-        return recommended_story_ids
+        return recommended_stories
 
     @staticmethod
     def fanfic_epub_already_exists(fanfic_title):
