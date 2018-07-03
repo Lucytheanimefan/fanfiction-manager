@@ -4,6 +4,7 @@ from time import time
 import plistlib
 from file_converter import *
 import file_converter
+import os
 
 # Constants
 root = 'https://www.fanfiction.net'
@@ -544,7 +545,7 @@ T = 3
 
 MIN_FOLLOW_TO_CHAPTER_RATIO = 15
 
-iBOOKS_FILE_PATH = "/Users/lucyzhang/Library/Containers/com.apple.BKAgentService/Data/Documents/iBooks/Books/Books.plist"
+iBOOKS_FILE_PATH = "~/Library/Containers/com.apple.BKAgentService/Data/Documents/iBooks/Books/Books.plist"
 
 
 class FanFiction:
@@ -581,7 +582,7 @@ class FanFiction:
 
     @staticmethod
     def fanfic_epub_already_exists(fanfic_title):
-        pl = plistlib.readPlist(iBOOKS_FILE_PATH)
+        pl = plistlib.readPlist(os.path.expanduser(iBOOKS_FILE_PATH))
         books = pl["Books"]
         for book in books:
             title = book["itemName"]
@@ -592,5 +593,5 @@ class FanFiction:
 
 
 if __name__ == "__main__":
-    print(FanFiction.get_recommendations("Magi", download_num=10))
-    # FanFiction.fanfic_epub_already_exists("Twenty-Three Percent")
+    # print(FanFiction.get_recommendations("Magi", download_num=10))
+    FanFiction.fanfic_epub_already_exists("Twenty-Three Percent")

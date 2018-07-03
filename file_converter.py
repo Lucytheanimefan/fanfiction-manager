@@ -2,7 +2,7 @@ from fanfiction_net_api import *
 from ebooklib import epub
 from os import path, remove
 
-iBOOKS_PATH = "/Users/lucyzhang/Downloads/"
+iBOOKS_PATH = "~/Downloads/"
 
 
 class Converter:
@@ -78,7 +78,7 @@ class Converter:
         book.spine = [intro_ch, nav_page] + chapters
 
         # write to the file
-        filename = '%s.epub' % self.fanfic.title
+        filename = os.path.expanduser(iBOOKS_PATH) + '%s.epub' % self.fanfic.title
         print("Saving to %s" % filename)
         if path.exists(filename):
             remove(filename)
