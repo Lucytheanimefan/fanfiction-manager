@@ -1,6 +1,7 @@
 from fanfiction_net_api import *
 from ebooklib import epub
 from os import path, remove
+import os
 
 iBOOKS_PATH = "~/Downloads/"
 
