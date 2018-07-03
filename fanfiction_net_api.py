@@ -414,7 +414,6 @@ class Chapter(object):
             # There are multiple chapters available, use chapter's title
             found = select.find('option', selected=True)
             if found:
-                print(found)
                 self.title = str(found).partition("<option value=\"")[0].split(">", 1)[1].split("<", 1)[0] #found[0].text #.split(None, 1)[1]
         else:
             # No multiple chapters, one-shot or only a single chapter released
@@ -588,5 +587,5 @@ class FanFiction:
 
 
 if __name__ == "__main__":
-    # print(FanFiction.get_recommendations("Death-Note", download_num=10))
-    FanFiction.fanfic_epub_already_exists("Twenty-Three Percent")
+    print(FanFiction.get_recommendations("Magi", download_num=10))
+    # FanFiction.fanfic_epub_already_exists("Twenty-Three Percent")

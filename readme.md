@@ -13,3 +13,7 @@ was changed to
 ```
 el.text = str(v[0])
 ```
+
+## Other notes
+Path where epubs are located in iBooks:
+`~/Library/Mobile\ Documents/iCloud\~com\~apple\~iBooks/Documents`
