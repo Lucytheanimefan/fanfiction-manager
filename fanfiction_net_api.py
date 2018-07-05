@@ -5,6 +5,7 @@ import plistlib
 from file_converter import *
 import file_converter
 import os
+import constants
 
 # Constants
 root = 'https://www.fanfiction.net'
@@ -591,7 +592,20 @@ class FanFiction:
                 return True
         return False
 
+    @staticmethod
+    def followed_fanfics():
+        url = root + "/alert/story.php"
+        r = requests.get(url, headers=constants.headers)
+        source = r.text
+        soup = bs4.BeautifulSoup(source, 'html.parser')
+        tds = soup.find_all("td")
+        for td in tds:
+            link = td.find("a")
+            if link:
+                print(link['href'])
+
 
 if __name__ == "__main__":
     # print(FanFiction.get_recommendations("Magi", download_num=10))
-    FanFiction.fanfic_epub_already_exists("Twenty-Three Percent")
+    # FanFiction.fanfic_epub_already_exists("Twenty-Three Percent")
+    FanFiction.followed_fanfics()
