@@ -18,19 +18,19 @@ def fanfic_to_epub(story_id):
     return send_file(path, as_attachment=True)
 
 
-@app.route("/download_recs", methods=["GET"])
-def get_fanfic_recs():
-    download_num = request.args.get('downloads') or 0
-    title = request.args.get('title') or 'Magi'
-    medium = request.args.get('medium') or 'anime'
-    character = request.args.get('character') or ""
-    data = FanFiction.get_recommendations(title, medium=medium, character=character, download_num=int(download_num))
-    response = app.response_class(
-        response=json.dumps(data),
-        status=200,
-        mimetype='application/json'
-    )
-    return response
+# @app.route("/download_recs", methods=["GET"])
+# def get_fanfic_recs():
+#     download_num = request.args.get('downloads') or 0
+#     title = request.args.get('title') or 'Magi'
+#     medium = request.args.get('medium') or 'anime'
+#     character = request.args.get('character') or ""
+#     data = FanFiction.get_recommendations(title, medium=medium, character=character, download_num=int(download_num))
+#     response = app.response_class(
+#         response=json.dumps(data),
+#         status=200,
+#         mimetype='application/json'
+#     )
+#     return response
 
 
 if __name__ == "__main__":

@@ -79,7 +79,8 @@ class Converter:
         book.spine = [intro_ch, nav_page] + chapters
 
         # write to the file
-        filename = os.path.expanduser(iBOOKS_PATH) + '%s.epub' % self.fanfic.title
+        # filename = os.path.expanduser(iBOOKS_PATH) + '%s.epub' % self.fanfic.title # This doesn't work on heroku
+        filename = '%s.epub' % self.fanfic.title
         print("Saving to %s" % filename)
         if path.exists(filename):
             remove(filename)
@@ -87,5 +88,5 @@ class Converter:
         return filename
 
 if __name__ == "__main__":
-    convert = Converter(12306614)
+    convert = Converter(6121795)
     convert.convert_to_epub()
